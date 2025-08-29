@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+bool siNarcisista(int n) {
+	int suma = 0, dig = 0, cn = n;
+
+	while (n > 0) {
+		dig = n % 10;
+		suma += dig * dig * dig;
+		n = n / 10;
+
+	}
+	return cn == suma;
+}
+
+int main() {
+
+	int i;
+	for (i = 100; i < 1000; i++)
+	{
+		if (siNarcisista(i))cout<<i<<"Es un cubo narcisita";
+		return 0;
+	}
+
+
+}
