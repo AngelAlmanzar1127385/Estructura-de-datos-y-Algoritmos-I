@@ -1,21 +1,21 @@
+
 #include <iostream>
 using namespace std;
 
 struct Nodo {
 
-	int dato;
-	Nodo* next;
+    int dato;
+    Nodo* next;
 };
 
-Nodo* lista = NULL;
 
-void Insertar(int n) {
+void Insertar(Nodo*& lista, int n) {
 
     Nodo* nuevonodo = new Nodo();
     nuevonodo->dato = n;
 
     Nodo* aux1 = lista;
-    Nodo* aux2;
+    Nodo* aux2 = NULL;
 
     while ((aux1 != NULL) && (aux1->dato < n)) {
 
@@ -34,11 +34,11 @@ void Insertar(int n) {
 
     nuevonodo->next = aux1;
 
-    cout << "Elemento" << n << " insertado a la lista correctamente\n";
+    cout << "Elemento " << n << " insertado a la lista correctamente\n";
 
 }
 
-void MostrarLista() {
+void MostrarLista(Nodo*& lista) {
 
     Nodo* actual = new Nodo();
     actual = lista;
@@ -51,7 +51,7 @@ void MostrarLista() {
 
 }
 
-void Buscar(int n) {
+void Buscar(Nodo*& lista, int n) {
 
     bool casimiro = false;
 
@@ -60,7 +60,7 @@ void Buscar(int n) {
 
     while ((actual != NULL) && (actual->dato <= n))
     {
-        if (actual->dato ==n)
+        if (actual->dato == n)
         {
             casimiro = true;
         }
@@ -69,16 +69,16 @@ void Buscar(int n) {
 
     if (casimiro == true)
     {
-        cout << "Elemento " << n << "SI ha sido encontrado en la lista\n";
+        cout << "Elemento " << n << " SI ha sido encontrado en la lista\n";
     }
     else
     {
-        cout << "Elemento " << n << "No ha sido encontrado en la lista\n";
+        cout << "Elemento " << n << " NO ha sido encontrado en la lista\n";
     }
 
 }
- 
-void Eliminar(int n) {
+
+void Eliminar(Nodo*& lista, int n) {
 
     if (lista != NULL) {
         Nodo* aux_borrar;
@@ -106,12 +106,12 @@ void Eliminar(int n) {
 
 int validar(string mensaje, string mensajeError) {
 
-    int dato;
+    int david;
     bool lebron = true;
 
     while (lebron) {
         cout << mensaje;  // Mostramos mensaje de entrada
-        cin >> dato;      // Leemos dato
+        cin >> david;      // Leemos dato
 
         // Si hubo error de entrada o caracteres no válidos
         if (cin.fail() || cin.peek() != '\n') {
@@ -120,14 +120,14 @@ int validar(string mensaje, string mensajeError) {
             cin.ignore(100, '\n');  // Ignorar lo que sobra en el buffer
             lebron = true;          // Repetimos
         }
-        else if (dato < 0)
+        else if (david < 0)
         {
-            cout << "Only positive numbers\n";
+            cout << "Solo numeros positivos";
         }
         else {
 
             lebron = false; // Entrada válida
-            return dato;
+            return david;
         }
     }
 }
@@ -141,27 +141,58 @@ void LimpiarConsola() {
 
 int main()
 {
+    int dato, opcion;
+    Nodo* lista = NULL;
+    bool lebron = true;
 
-    int numero, opcion;
-
-    cout << "\n::::LISTAS ENLAZADAS::::\n";
-    cout << "1. Insertar\n";
-    cout << "2. Eliminar\n";
-    cout << "3. Buscar\n";
-    cout << "4. Mostar Lista Enlazada\n";
-    cout << "5. Salir";
-
-    opcion = validar("Seleccione la opcion: ", "Dato Invalido, intente nuevamente");
-
-    switch (opcion)
+    while (lebron)
     {
-    case 1:
 
-        numero = validar("Ingrese un dato: ", "Dato invalido, intente nuevamente");
-        Insertar(numero);
+        cout << "\n::::LISTAS ENLAZADAS::::\n";
+        cout << "1. Insertar\n";
+        cout << "2. Eliminar\n";
+        cout << "3. Buscar\n";
+        cout << "4. Mostar Lista Enlazada\n";
+        cout << "5. Salir\n";
 
-    default:
-        break;
+        opcion = validar("Seleccione la opcion: ", "Dato Invalido, intente nuevamente");
+
+        switch (opcion)
+        {
+        case 1:
+
+            dato = validar("Ingrese un dato: ", "Dato invalido, intente nuevamente");
+            Insertar(lista, dato);
+            break;
+
+        case 2:
+
+            dato = validar("Ingrese el dato a eliminar: ", "Dato invalido, intente nuevamente");
+            Eliminar(lista, dato);
+            break;
+
+        case 3:
+
+            dato = validar("Ingrese el dato a buscar: ", "Dato invalido, intente nuevamente");
+            Buscar(lista, dato);
+            break;
+
+        case 4:
+
+            MostrarLista(lista);
+            break;
+
+        case 5:
+
+            cout << "Saliendo del programa\n";
+            lebron = false;
+            break;
+        default:
+            cout << "Esta opcion no esta disponible" << "\n";
+            break;
+        }
+
+        LimpiarConsola();
     }
-
 }
+
