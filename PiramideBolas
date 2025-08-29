@@ -1,0 +1,20 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+
+	int bolas = 10000;
+	int bolasUsadas = 0;
+	int capa = 1;
+	while ((capa*capa) <= bolas)
+	{
+		bolasUsadas += capa * capa;
+		bolas -= capa * capa;
+		capa++;
+	}
+	cout << "Se formaron " << capa - 1 << " capas"<<"\n";
+	cout << "Sobraron " << bolas << " bolas";
+	return 0;
+	
+
+}
