@@ -1,0 +1,167 @@
+#include <iostream>
+using namespace std;
+
+struct Nodo {
+
+	int dato;
+	Nodo* next;
+};
+
+Nodo* lista = NULL;
+
+void Insertar(int n) {
+
+    Nodo* nuevonodo = new Nodo();
+    nuevonodo->dato = n;
+
+    Nodo* aux1 = lista;
+    Nodo* aux2;
+
+    while ((aux1 != NULL) && (aux1->dato < n)) {
+
+        aux2 = aux1;
+        aux1 = aux1->next;
+    }
+
+    if (lista == aux1) {
+
+        lista = nuevonodo;
+    }
+    else
+    {
+        aux2->next = nuevonodo;
+    }
+
+    nuevonodo->next = aux1;
+
+    cout << "Elemento" << n << " insertado a la lista correctamente\n";
+
+}
+
+void MostrarLista() {
+
+    Nodo* actual = new Nodo();
+    actual = lista;
+
+    while (actual != NULL) {
+
+        cout << actual->dato << " -> ";
+        actual = actual->next;
+    }
+
+}
+
+void Buscar(int n) {
+
+    bool casimiro = false;
+
+    Nodo* actual = new Nodo();
+    actual = lista;
+
+    while ((actual != NULL) && (actual->dato <= n))
+    {
+        if (actual->dato ==n)
+        {
+            casimiro = true;
+        }
+        actual = actual->next;
+    }
+
+    if (casimiro == true)
+    {
+        cout << "Elemento " << n << "SI ha sido encontrado en la lista\n";
+    }
+    else
+    {
+        cout << "Elemento " << n << "No ha sido encontrado en la lista\n";
+    }
+
+}
+ 
+void Eliminar(int n) {
+
+    if (lista != NULL) {
+        Nodo* aux_borrar;
+        Nodo* anterior = NULL;
+        aux_borrar = lista;
+
+        while ((aux_borrar != NULL) && (aux_borrar->dato != n)) {
+            anterior = aux_borrar;
+            aux_borrar = aux_borrar->next;
+        }
+
+        if (aux_borrar == NULL) {
+            cout << "El elemento no existe";
+        }
+        else if (anterior == NULL) {
+            lista = lista->next;
+            delete aux_borrar;
+        }
+        else {
+            anterior->next = aux_borrar->next;
+            delete aux_borrar;
+        }
+    }
+}
+
+int validar(string mensaje, string mensajeError) {
+
+    int dato;
+    bool lebron = true;
+
+    while (lebron) {
+        cout << mensaje;  // Mostramos mensaje de entrada
+        cin >> dato;      // Leemos dato
+
+        // Si hubo error de entrada o caracteres no válidos
+        if (cin.fail() || cin.peek() != '\n') {
+            cout << mensajeError << endl << endl;
+            cin.clear();            // Limpiar estado de error
+            cin.ignore(100, '\n');  // Ignorar lo que sobra en el buffer
+            lebron = true;          // Repetimos
+        }
+        else if (dato < 0)
+        {
+            cout << "Only positive numbers\n";
+        }
+        else {
+
+            lebron = false; // Entrada válida
+            return dato;
+        }
+    }
+}
+
+void LimpiarConsola() {
+
+    system("pause");
+    system("cls");
+}
+
+
+int main()
+{
+
+    int numero, opcion;
+
+    cout << "\n::::LISTAS ENLAZADAS::::\n";
+    cout << "1. Insertar\n";
+    cout << "2. Eliminar\n";
+    cout << "3. Buscar\n";
+    cout << "4. Mostar Lista Enlazada\n";
+    cout << "5. Salir";
+
+    opcion = validar("Seleccione la opcion: ", "Dato Invalido, intente nuevamente");
+
+    switch (opcion)
+    {
+    case 1:
+
+        numero = validar("Ingrese un dato: ", "Dato invalido, intente nuevamente");
+        Insertar(numero);
+
+    default:
+        break;
+    }
+
+}
