@@ -1,0 +1,25 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    int n = 24;
+    double atraso = 0;
+    long long f1 = 1, f2 = 1, fn;
+
+    // Suma desde la hora 1 hasta la 24
+    for (int i = 1; i <= n; i++) {
+        if (i == 1) fn = f1;
+        else if (i == 2) fn = f2;
+        else {
+            fn = f1 + f2;
+            f1 = f2;
+            f2 = fn;
+        }
+
+        atraso += (double)fn / pow(2, i);
+    }
+
+    cout << "El reloj se atrasa aproximadamente " << atraso << " minutos en 24 horas." << endl;
+    return 0;
+}
