@@ -100,7 +100,10 @@ void Eliminar(Nodo*& lista, int n) {
         else {
             anterior->next = aux_borrar->next;
             delete aux_borrar;
+            
         }
+        cout << "Elemento " << n << " eliminado exitosamente\n";
+
     }
 }
 
@@ -161,24 +164,28 @@ int main()
         {
         case 1:
 
+            
             dato = validar("Ingrese un dato: ", "Dato invalido, intente nuevamente");
             Insertar(lista, dato);
             break;
 
         case 2:
 
+            if (lista == NULL) cout << "La lista esta vacia";
             dato = validar("Ingrese el dato a eliminar: ", "Dato invalido, intente nuevamente");
             Eliminar(lista, dato);
             break;
 
         case 3:
 
+            if (lista == NULL) cout << "La lista esta vacia";
             dato = validar("Ingrese el dato a buscar: ", "Dato invalido, intente nuevamente");
             Buscar(lista, dato);
             break;
 
         case 4:
 
+            if (lista == NULL) cout << "La lista esta vacia";
             MostrarLista(lista);
             break;
 
@@ -187,6 +194,7 @@ int main()
             cout << "Saliendo del programa\n";
             lebron = false;
             break;
+
         default:
             cout << "Esta opcion no esta disponible" << "\n";
             break;
@@ -194,5 +202,7 @@ int main()
 
         LimpiarConsola();
     }
+
+    
 }
 
