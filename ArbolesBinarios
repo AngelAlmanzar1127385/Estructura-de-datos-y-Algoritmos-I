@@ -1,0 +1,245 @@
+#include <iostream>
+using namespace std;
+
+struct Nodo {
+
+	int dato;
+	Nodo* der;
+	Nodo* izq;
+	Nodo* omega;
+
+};
+
+Nodo* crearNodo(int n, Nodo*padre)
+{
+	Nodo* nuevonodo = new Nodo();
+
+	nuevonodo->dato = n;
+	nuevonodo->der = nullptr;
+	nuevonodo->izq = nullptr;
+	nuevonodo->omega = nullptr;
+
+	return nuevonodo;
+
+}
+
+void Insertar(Nodo*& arbol, int n,Nodo* padre)
+{
+
+	if (arbol == nullptr)
+	{
+		Nodo* nuevonodo = crearNodo(n, padre);
+		arbol = nuevonodo;
+		//si el arbol esta vacio
+		//esta sera la raiz del arbol
+	}
+	else
+	{
+		int goku = arbol->dato;
+		//variable para saber el valor de la raiz
+
+		if (n < goku)
+		{
+			Insertar(arbol->izq, n, arbol);
+			cout << "El numero " << n << " se inserto correctamente en el lado izquierdo!";
+		}
+		else
+		{
+			Insertar(arbol->der, n, arbol);
+			cout << "El numero " << n << " se inserto correctamente en el lado derecho!";
+		}
+	}
+
+}
+
+void mostrarArbol(Nodo* arbol, int moises)
+{
+	if (arbol == nullptr)
+	{
+		return;
+	}
+	else
+	{
+		mostrarArbol(arbol->der, moises + 1);
+		for (int i = 0; i < moises; i++)
+		{
+			cout << " ";
+		}
+		cout << arbol->dato << endl;
+		mostrarArbol(arbol->izq, moises + 1);
+	}
+
+}
+
+bool busqueda(Nodo*arbol,int n)
+{
+	if (arbol == nullptr)
+	{
+		return false; 
+	}
+	else if(arbol->dato ==n)
+	{
+		return true;
+	}
+	else if (n < arbol->dato)
+	{
+		return busqueda(arbol->izq, n);
+	}
+	else
+	{
+		return busqueda(arbol->der, n);
+	}
+}
+
+void preOrden(Nodo*arbol)
+{
+	if (arbol ==nullptr)
+	{
+		return;
+	}
+	else
+	{
+		cout << arbol->dato << "-";
+		preOrden(arbol->izq);
+		preOrden(arbol->der);
+
+	}
+
+}
+
+void inOrden(Nodo*arbol)
+{
+	if (arbol ==nullptr)
+	{
+		return;
+	}
+	else
+	{
+		inOrden(arbol->izq);
+		cout << arbol->dato << "-";
+		inOrden(arbol->der);
+	}
+
+
+}
+
+void postOrden(Nodo*arbol)
+{
+	if (arbol == nullptr)
+	{
+		return;
+	}
+	else
+	{
+		postOrden(arbol->izq);
+		postOrden(arbol->der);
+		cout << arbol->dato << "-";
+	}
+}
+
+int validar(string mensaje, string mensajeError) {
+
+	int david;
+	bool lebron = true;
+
+	while (lebron) {
+		cout << mensaje;  // Mostramos mensaje de entrada
+		cin >> david;      // Leemos dato
+
+		// Si hubo error de entrada o caracteres no válidos
+		if (cin.fail() || cin.peek() != '\n') {
+			cout << mensajeError << endl << endl;
+			cin.clear();            // Limpiar estado de error
+			cin.ignore(100, '\n');  // Ignorar lo que sobra en el buffer
+			lebron = true;          // Repetimos
+		}
+		else if (david < 0)
+		{
+			cout << "Solo numeros positivos";
+		}
+		else {
+
+			lebron = false; // Entrada válida
+			return david;
+		}
+	}
+}
+
+void LimpiarConsola() {
+
+	system("pause");
+	system("cls");
+}
+
+
+
+int main()
+{
+	int dato, opcion;
+	Nodo* arbol = NULL;
+	bool lebron = true;
+
+	while (lebron)
+	{
+
+		cout << "\n:::: MENU DE ARBOL DE BUSQUEDA BINARIA::::\n";
+		cout << "1. Insertar un nuevo nodo\n";
+		cout << "2. Mostrar el arbol completo\n";
+		cout << "3. Buscar un elemento en el arbol\n";
+		cout << "4. Recorrer el arbol en PreOrden\n";
+		cout << "5. Recorrer el arbol en InOrden\n";
+		cout << "6. Recorrer el arbol en PostOrden\n";
+		cout << "7. Salir\n";
+
+		opcion = validar("Seleccione la opcion: ", "Dato Invalido, intente nuevamente");
+
+		switch (opcion)
+		{
+		case 1:
+
+			dato = validar("Ingrese un dato: ", "Dato invalido, intente nuevamente");
+			Insertar(arbol, dato, NULL);
+			break;
+
+		case 2:
+
+			cout << "Mostrando el arbol completo:\n";
+			mostrarArbol(arbol, dato);
+			break;
+
+		case 3:
+
+			dato = validar("Ingrese el dato a buscar: ", "Dato invalido, intente nuevamente");
+			if (busqueda(arbol,dato) == true)
+			{
+				cout << "\nElemento " << dato << " ha sido encontrado en el arbol";
+			}
+			else
+			{
+
+			}
+			break;
+			
+
+		case 4:
+
+			if (arbol == NULL) cout << "La lista esta vacia";
+			mostrarArbol(arbol,dato);
+			break;
+
+		case 5:
+
+			cout << "Saliendo del programa\n";
+			lebron = false;
+			break;
+
+		default:
+			cout << "Esta opcion no esta disponible" << "\n";
+			break;
+		}
+
+		LimpiarConsola();
+	}
+
+
+}
