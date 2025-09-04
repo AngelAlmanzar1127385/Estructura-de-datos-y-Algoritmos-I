@@ -6,47 +6,50 @@ struct Nodo {
 	int dato;
 	Nodo* der;
 	Nodo* izq;
-	Nodo* omega;
+	Nodo* bardock;
 
 };
 
-Nodo* crearNodo(int n, Nodo*padre)
+Nodo* crearNodo(int n, Nodo *padre)
 {
-	Nodo* nuevonodo = new Nodo();
+	Nodo* nuevo_nodo = new Nodo();
 
-	nuevonodo->dato = n;
-	nuevonodo->der = nullptr;
-	nuevonodo->izq = nullptr;
-	nuevonodo->omega = nullptr;
+	nuevo_nodo->dato = n;
+	nuevo_nodo->der = NULL;
+	nuevo_nodo->izq = NULL;
+	nuevo_nodo->bardock = NULL;
 
-	return nuevonodo;
+	return nuevo_nodo;
 
 }
 
-void Insertar(Nodo*& arbol, int n,Nodo* padre)
+void insertarNodo(Nodo*& arbol, int n,Nodo* padre)
 {
 
-	if (arbol == nullptr)
+	if (arbol == NULL)
 	{
 		Nodo* nuevonodo = crearNodo(n, padre);
 		arbol = nuevonodo;
+		
 		//si el arbol esta vacio
 		//esta sera la raiz del arbol
 	}
-	else
+	else //si el arbol tiene un nodo o mas
 	{
 		int goku = arbol->dato;
 		//variable para saber el valor de la raiz
+		//es para saber si lo mandamos al lado izquierdo 
+		//o al lado derecho
 
 		if (n < goku)
 		{
-			Insertar(arbol->izq, n, arbol);
-			cout << "El numero " << n << " se inserto correctamente en el lado izquierdo!";
+		insertarNodo(arbol->izq, n, arbol);
+			
 		}
 		else
 		{
-			Insertar(arbol->der, n, arbol);
-			cout << "El numero " << n << " se inserto correctamente en el lado derecho!";
+		insertarNodo(arbol->der, n, arbol);
+			
 		}
 	}
 
@@ -54,30 +57,30 @@ void Insertar(Nodo*& arbol, int n,Nodo* padre)
 
 void mostrarArbol(Nodo* arbol, int moises)
 {
-	if (arbol == nullptr)
+	if (arbol == NULL)
 	{
 		return;
 	}
 	else
 	{
-		mostrarArbol(arbol->der, moises + 1);
+		mostrarArbol(arbol->der, moises+1);
 		for (int i = 0; i < moises; i++)
 		{
-			cout << " ";
+			cout << "   ";
 		}
 		cout << arbol->dato << endl;
-		mostrarArbol(arbol->izq, moises + 1);
+		mostrarArbol(arbol->izq, moises+1);
 	}
 
 }
 
 bool busqueda(Nodo*arbol,int n)
 {
-	if (arbol == nullptr)
+	if (arbol == NULL)
 	{
 		return false; 
 	}
-	else if(arbol->dato ==n)
+	else if(arbol->dato == n)
 	{
 		return true;
 	}
@@ -93,7 +96,7 @@ bool busqueda(Nodo*arbol,int n)
 
 void preOrden(Nodo*arbol)
 {
-	if (arbol ==nullptr)
+	if (arbol == NULL)
 	{
 		return;
 	}
@@ -105,11 +108,13 @@ void preOrden(Nodo*arbol)
 
 	}
 
+
+
 }
 
 void inOrden(Nodo*arbol)
 {
-	if (arbol ==nullptr)
+	if (arbol == NULL)
 	{
 		return;
 	}
@@ -125,7 +130,7 @@ void inOrden(Nodo*arbol)
 
 void postOrden(Nodo*arbol)
 {
-	if (arbol == nullptr)
+	if (arbol == NULL)
 	{
 		return;
 	}
@@ -137,14 +142,129 @@ void postOrden(Nodo*arbol)
 	}
 }
 
+//Aqui empieza la funcion eliminar con sus respectivos metodos
+//para que funcione correctamente
+
+void jalofeinNodo(Nodo* nodo)
+{
+	nodo->izq = NULL;
+	nodo->der = NULL;
+
+	delete nodo;
+}
+
+Nodo* minimo(Nodo* arbol)
+{
+	//funcion para determinar el nodo mas izquierdo posible
+	if (arbol == NULL)
+	{
+		return NULL;
+	}
+	if (arbol->izq)//si tiene hijo izquierdo
+	{
+		return minimo(arbol->izq);//buscamos la parte mas izq posible
+	}
+	else //si no tiene hijo izq
+	{
+		return arbol;//retornamos el mismo nodo
+	}
+
+}
+
+void reemplazar(Nodo* arbol, Nodo* nuevoNodo)
+{
+	//hay que saber quien es el padre del nodo que queremos eliminar
+	//ya que ese padre apuntara al hijo del nodo que eliminaremos
+	//solo seria en el caso de que el nodo a eliminar tenga un solo hijo
+	if (arbol->bardock)
+	{
+		if (arbol->bardock->izq)
+		{
+			//arbol->bardock hay que asignarle su nuevo hijo
+			if (arbol->dato == arbol->bardock->izq->dato)
+			{
+				arbol->bardock->izq = nuevoNodo;
+			}
+			else if (arbol->dato == arbol->bardock->der->dato)
+			{
+				arbol->bardock->der = nuevoNodo;
+			}
+		}
+		
+	}
+	if (nuevoNodo)
+	{
+		//tambien se le tiene que asignar su nuevo padre
+		nuevoNodo->bardock = arbol->bardock;
+	}
+
+}
+
+void eliminarNodo(Nodo* nodoEliminar)
+{
+	//funcion para eliminar el nodo encontrado
+
+	//borrar un nodo con dos subarboles hijos
+	//podemos confirmarlo preguntando si tiene hijo derecho
+	//e hijo izquierdo
+	if (nodoEliminar->izq && nodoEliminar->der)
+	{
+		Nodo* menor = minimo(nodoEliminar->der);
+		nodoEliminar->dato = menor->dato;
+		eliminarNodo(menor);
+	}
+	//ahora seria si tiene un solo hijo izquierdo
+	else if (nodoEliminar->izq)//si tiene hijo izquierdo
+	{
+		reemplazar(nodoEliminar, nodoEliminar->izq);
+		jalofeinNodo(nodoEliminar);
+	}
+	else if (nodoEliminar->der)
+	{
+		reemplazar(nodoEliminar, nodoEliminar->der);
+		jalofeinNodo(nodoEliminar);
+	}
+	else
+	{
+		//si no tiene hijos (nodo hoja)
+		reemplazar(nodoEliminar, NULL);
+		jalofeinNodo(nodoEliminar);
+	}
+
+}
+
+void eliminar(Nodo*& arbol, int n)
+{
+	if (arbol == NULL)//si el arbol esta vacio
+	{
+		return;
+		//no se hace nada
+	}
+	else if (n < arbol->dato)//si el valor es menor
+	{
+		eliminar(arbol->izq, n);
+		//busca por la izquierda
+	}
+	else if (n > arbol->dato)//si el valor es mayor
+	{
+		eliminar(arbol->der, n);
+		//busca por la derecha
+	}
+	else //si ya se encontro el valor del nodo
+	{
+		eliminarNodo(arbol);
+	}
+
+}
+
 int validar(string mensaje, string mensajeError) {
 
-	int david;
+	int majinbuu;
 	bool lebron = true;
 
 	while (lebron) {
 		cout << mensaje;  // Mostramos mensaje de entrada
-		cin >> david;      // Leemos dato
+		cin >> majinbuu;      // Leemos dato
 
 		// Si hubo error de entrada o caracteres no válidos
 		if (cin.fail() || cin.peek() != '\n') {
@@ -153,14 +273,11 @@ int validar(string mensaje, string mensajeError) {
 			cin.ignore(100, '\n');  // Ignorar lo que sobra en el buffer
 			lebron = true;          // Repetimos
 		}
-		else if (david < 0)
-		{
-			cout << "Solo numeros positivos";
-		}
+		
 		else {
 
 			lebron = false; // Entrada válida
-			return david;
+			return majinbuu;
 		}
 	}
 }
@@ -171,15 +288,13 @@ void LimpiarConsola() {
 	system("cls");
 }
 
-
-
 int main()
 {
-	int dato, opcion;
+	int dato, opcion, moises=0,bardock;
 	Nodo* arbol = NULL;
-	bool lebron = true;
+	bool gohan = true;
 
-	while (lebron)
+	while (gohan)
 	{
 
 		cout << "\n:::: MENU DE ARBOL DE BUSQUEDA BINARIA::::\n";
@@ -189,22 +304,25 @@ int main()
 		cout << "4. Recorrer el arbol en PreOrden\n";
 		cout << "5. Recorrer el arbol en InOrden\n";
 		cout << "6. Recorrer el arbol en PostOrden\n";
-		cout << "7. Salir\n";
+		cout << "7. Eliminar un nodo\n";
+		cout << "8. Salir\n";
 
-		opcion = validar("Seleccione la opcion: ", "Dato Invalido, intente nuevamente");
+		opcion = validar("\nSeleccione la opcion: ", "Dato Invalido, intente nuevamente");
 
 		switch (opcion)
 		{
 		case 1:
 
 			dato = validar("Ingrese un dato: ", "Dato invalido, intente nuevamente");
-			Insertar(arbol, dato, NULL);
+			insertarNodo(arbol, dato, NULL);
+			cout << "\n";
 			break;
 
 		case 2:
 
 			cout << "Mostrando el arbol completo:\n";
-			mostrarArbol(arbol, dato);
+			mostrarArbol(arbol, moises);
+			cout << "\n";
 			break;
 
 		case 3:
@@ -216,21 +334,43 @@ int main()
 			}
 			else
 			{
-
+				cout << "\nElemento no encontrado";
 			}
+			cout << "\n";
 			break;
 			
 
 		case 4:
 
-			if (arbol == NULL) cout << "La lista esta vacia";
-			mostrarArbol(arbol,dato);
+			cout << "Recorrido en PreOrden\n";
+			preOrden(arbol);
+			cout << "\n\n";
 			break;
 
 		case 5:
 
+			cout << "Recorrido en InOrden\n";
+			inOrden(arbol);
+			break;
+
+		case 6:
+
+			cout << "Recorrido en PostOrden\n";
+			postOrden(arbol);
+			break;
+
+		case 7:
+
+			dato = validar("Ingrese el dato a eliminar: ", "Dato invalido, intente nuevamente");
+			eliminar(arbol, dato);
+			cout << "\n";
+			break;
+
+
+		case 8:
+
 			cout << "Saliendo del programa\n";
-			lebron = false;
+			gohan = false;
 			break;
 
 		default:
