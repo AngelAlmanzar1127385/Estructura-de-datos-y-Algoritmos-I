@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int x;
+    cout << "Ingrese su numero de invitado (1-99): ";
+    cin >> x;
+
+    if (x < 1 || x > 99) {
+        cout << "El numero debe estar entre 1 y 99";
+        return 0;
+    }
+
+    cout << x; 
+    while (x != 4) {
+        if (x % 2 == 0) {
+            x = x / 2;          
+        }
+        else {
+            x = (x * 3) + 1;    
+        }
+        cout << " -> " << x; 
+    }
+
+    return 0;
+}
