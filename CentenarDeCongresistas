@@ -1,0 +1,18 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    for (int S = 0; S <= 100; ++S) {          
+        for (int C = 0; C <= 100 - S; ++C) {  
+            int I = 100 - S - C;              
+            if (75 * S + 99 * C + 40 * I == 7869) {
+                cout << "Senadores: " << S << "\n"
+                    << "Congresistas: " << C << "\n"
+                    << "Invitados: " << I << "\n";
+                return 0;
+            }
+        }
+    }
+    
+    return 0;
+}
