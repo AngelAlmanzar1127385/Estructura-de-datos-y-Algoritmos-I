@@ -15,9 +15,9 @@ Nodo* crearNodo(int n, Nodo *padre)
 	Nodo* nuevo_nodo = new Nodo();
 
 	nuevo_nodo->dato = n;
-	nuevo_nodo->der = NULL;
-	nuevo_nodo->izq = NULL;
-	nuevo_nodo->bardock = NULL;
+	nuevo_nodo->der = nullptr;
+	nuevo_nodo->izq = nullptr;
+	nuevo_nodo->bardock = padre;
 
 	return nuevo_nodo;
 
@@ -26,7 +26,7 @@ Nodo* crearNodo(int n, Nodo *padre)
 void insertarNodo(Nodo*& arbol, int n,Nodo* padre)
 {
 
-	if (arbol == NULL)
+	if (arbol == nullptr)
 	{
 		Nodo* nuevonodo = crearNodo(n, padre);
 		arbol = nuevonodo;
@@ -57,7 +57,7 @@ void insertarNodo(Nodo*& arbol, int n,Nodo* padre)
 
 void mostrarArbol(Nodo* arbol, int moises)
 {
-	if (arbol == NULL)
+	if (arbol == nullptr)
 	{
 		return;
 	}
@@ -76,7 +76,7 @@ void mostrarArbol(Nodo* arbol, int moises)
 
 bool busqueda(Nodo*arbol,int n)
 {
-	if (arbol == NULL)
+	if (arbol == nullptr)
 	{
 		return false; 
 	}
@@ -96,7 +96,7 @@ bool busqueda(Nodo*arbol,int n)
 
 void preOrden(Nodo*arbol)
 {
-	if (arbol == NULL)
+	if (arbol == nullptr)
 	{
 		return;
 	}
@@ -114,7 +114,7 @@ void preOrden(Nodo*arbol)
 
 void inOrden(Nodo*arbol)
 {
-	if (arbol == NULL)
+	if (arbol == nullptr)
 	{
 		return;
 	}
@@ -130,7 +130,7 @@ void inOrden(Nodo*arbol)
 
 void postOrden(Nodo*arbol)
 {
-	if (arbol == NULL)
+	if (arbol == nullptr)
 	{
 		return;
 	}
@@ -147,8 +147,8 @@ void postOrden(Nodo*arbol)
 
 void jalofeinNodo(Nodo* nodo)
 {
-	nodo->izq = NULL;
-	nodo->der = NULL;
+	nodo->izq = nullptr;
+	nodo->der = nullptr;
 
 	delete nodo;
 }
@@ -156,10 +156,9 @@ void jalofeinNodo(Nodo* nodo)
 Nodo* minimo(Nodo* arbol)
 {
 	//funcion para determinar el nodo mas izquierdo posible
-	if (arbol == NULL)
-	{
-		return NULL;
-	}
+
+	if (arbol == nullptr) return nullptr;
+	
 	if (arbol->izq)//si tiene hijo izquierdo
 	{
 		return minimo(arbol->izq);//buscamos la parte mas izq posible
@@ -181,7 +180,7 @@ void reemplazar(Nodo* arbol, Nodo* nuevoNodo)
 		if (arbol->bardock->izq)
 		{
 			//arbol->bardock hay que asignarle su nuevo hijo
-			if (arbol->dato == arbol->bardock->izq->dato)
+			if (arbol->bardock->izq == arbol)
 			{
 				arbol->bardock->izq = nuevoNodo;
 			}
@@ -227,15 +226,15 @@ void eliminarNodo(Nodo* nodoEliminar)
 	else
 	{
 		//si no tiene hijos (nodo hoja)
-		reemplazar(nodoEliminar, NULL);
+		reemplazar(nodoEliminar, nullptr);
 		jalofeinNodo(nodoEliminar);
 	}
 
 }
 
-void eliminar(Nodo*& arbol, int n)
+Nodo* eliminar(Nodo*& arbol, int n)
 {
-	if (arbol == NULL)//si el arbol esta vacio
+	if (arbol == nullptr)//si el arbol esta vacio
 	{
 		return;
 		//no se hace nada
@@ -255,14 +254,41 @@ void eliminar(Nodo*& arbol, int n)
 		eliminarNodo(arbol);
 	}
 
-}
+	// Cambia la firma de eliminar para que retorne Nodo*
+	Nodo* eliminar(Nodo * arbol, int n)
+	{
+		if (arbol == nullptr)//si el arbol esta vacio
+		{
+			return nullptr;
+			//no se hace nada
+		}
+		else if (n < arbol->dato)//si el valor es menor
+		{
+			arbol->izq = eliminar(arbol->izq, n);
+			//busca por la izquierda
+		}
+		else if (n > arbol->dato)//si el valor es mayor
+		{
+			arbol->der = eliminar(arbol->der, n);
+			//busca por la derecha
+		}
+		else //si ya se encontro el valor del nodo
+		{
+			eliminarNodo(arbol);
+		}
+		return arbol;
+	}
+
+
+//Aqui termina eliminar
 
 int validar(string mensaje, string mensajeError) {
 
 	int majinbuu;
-	bool lebron = true;
+	bool casimiroFortnite = true;
 
-	while (lebron) {
+	while (casimiroFortnite) {
+
 		cout << mensaje;  // Mostramos mensaje de entrada
 		cin >> majinbuu;      // Leemos dato
 
@@ -271,12 +297,12 @@ int validar(string mensaje, string mensajeError) {
 			cout << mensajeError << endl << endl;
 			cin.clear();            // Limpiar estado de error
 			cin.ignore(100, '\n');  // Ignorar lo que sobra en el buffer
-			lebron = true;          // Repetimos
+			casimiroFortnite = true;          // Repetimos
 		}
 		
 		else {
 
-			lebron = false; // Entrada válida
+			casimiroFortnite = false; // Entrada válida
 			return majinbuu;
 		}
 	}
@@ -291,13 +317,14 @@ void LimpiarConsola() {
 int main()
 {
 	int dato, opcion, moises=0,bardock;
-	Nodo* arbol = NULL;
+	Nodo* arbol = nullptr;
 	bool gohan = true;
 
 	while (gohan)
 	{
 
 		cout << "\n:::: MENU DE ARBOL DE BUSQUEDA BINARIA::::\n";
+		cout << "\n";
 		cout << "1. Insertar un nuevo nodo\n";
 		cout << "2. Mostrar el arbol completo\n";
 		cout << "3. Buscar un elemento en el arbol\n";
@@ -320,13 +347,24 @@ int main()
 
 		case 2:
 
+			if (arbol == NULL)
+			{
+				cout << "El arbol esta vacio\n";
+				break;
+			}
 			cout << "Mostrando el arbol completo:\n";
+			cout << "\n\n";
 			mostrarArbol(arbol, moises);
 			cout << "\n";
 			break;
 
 		case 3:
 
+			if (arbol == NULL)
+			{
+				cout << "El arbol esta vacio\n";
+				break;
+			}
 			dato = validar("Ingrese el dato a buscar: ", "Dato invalido, intente nuevamente");
 			if (busqueda(arbol,dato) == true)
 			{
@@ -342,6 +380,11 @@ int main()
 
 		case 4:
 
+			if (arbol == NULL)
+			{
+				cout << "El arbol esta vacio\n";
+				break;
+			}
 			cout << "Recorrido en PreOrden\n";
 			preOrden(arbol);
 			cout << "\n\n";
@@ -349,18 +392,33 @@ int main()
 
 		case 5:
 
+			if (arbol == NULL)
+			{
+				cout << "El arbol esta vacio\n";
+				break;
+			}
 			cout << "Recorrido en InOrden\n";
 			inOrden(arbol);
 			break;
 
 		case 6:
 
+			if (arbol == NULL)
+			{
+				cout << "El arbol esta vacio\n";
+				break;
+			}
 			cout << "Recorrido en PostOrden\n";
 			postOrden(arbol);
 			break;
 
 		case 7:
 
+			if (arbol == NULL)
+			{
+				cout << "El arbol esta vacio\n";
+				break;
+			}
 			dato = validar("Ingrese el dato a eliminar: ", "Dato invalido, intente nuevamente");
 			eliminar(arbol, dato);
 			cout << "\n";
