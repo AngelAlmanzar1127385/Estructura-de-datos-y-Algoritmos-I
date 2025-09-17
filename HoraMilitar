@@ -1,0 +1,18 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+
+	int n, y;
+
+	for (size_t i = 1; i <= 2400; i++)
+	{
+		n = i % 100;
+		y = i / 100;
+
+		if (((n*n)+(y*y)) == i)
+		{
+			cout << i << endl;
+		}
+	}
+}
