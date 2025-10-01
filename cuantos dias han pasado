@@ -1,0 +1,19 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	
+	int monthNow = 9;
+	int dayNow = 30;
+	int dayThen = 1;
+	int monthThen = 1;
+
+	cout << "Han pasado " << monthNow - monthThen << " meses y " << dayNow - dayThen << " dias";
+
+
+
+
+
+}
