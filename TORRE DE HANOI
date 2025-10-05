@@ -1,87 +1,134 @@
+/*
+Tarea 8. Torres de Hanoi (Recursividad).
+Fecha de Entrega: 06 de Octubre 2025
+
+ENUNCIADO: Realizar un programa C++ que simule el juego de las Torres de Hanoi.
+Las Torres de Hanoi es un rompecabezas matematico que se resuelve de forma optima utilizando recursividad.
+La recursividad es una tecnica donde una funcion se llama a s� misma para resolver subproblemas mas
+pequeoñs hasta llegar a un caso base. El objetivo es mover una pila de discos de una varilla a otra,
+siguiendo un conjunto de reglas simples, y el programa debe mostrar la secuencia de movimientos
+necesarios para lograrlo.
+
+Este problema se centra en la implementacion de una funcion recursiva en lugar de una estructura de nodos:
+void torreDeHanoi(int n, char origen, char auxiliar, char destino);
+
+RESTRICCIONES:
+A. El programa debe solicitar al usuario el n�mero de discos y simular la secuencia de movimientos para
+   resolver el puzle.
+B. La salida del programa debe mostrar de forma clara y ordenada cada uno de los movimientos necesarios
+   para mover la torre de la varilla de origen a la de destino.
+C. El programa debera tener un menu con las opciones para iniciar una nueva simulacion y para salir del
+   programa.
+D. Las entradas de datos del usuario (opciones del menu, numero de discos) deben ser debidamente
+   validadas.
+E. El programa debe ser lo suficientemente especializado para informar al usuario si introduce un numero
+   de discos no valido (menor que 1).
+
+AUTORES: 
+
+Angel Almanzar - 1127385
+
+FECHA: 06/10/2025
+*/
+
 #include <iostream>
+#include <string> 
+
 using namespace std;
+int movimientos = 0;
 
-
-void hanoi(int n, char origen, char destino, char auxiliar) {
+// Funcion recursiva que resuelve la Torre de Hanoi
+void torreDeHanoi(int n, char origen, char auxiliar, char destino) {
+    movimientos++;
+    // Caso base: si solo queda un anillo, se mueve directamente.
     if (n == 1) {
-        cout << "Mover disco 1 de " << origen << " a " << destino << endl;
+        cout << "Mover anillo 1 desde " << origen << " hacia " << destino << endl;
         return;
     }
-    hanoi(n - 1, origen, auxiliar, destino);
-    cout << "Mover disco " << n << " de " << origen << " a " << destino << endl;
-    hanoi(n - 1, auxiliar, destino, origen);
+
+    // Mover n-1 anillos desde el origen al auxiliar
+    torreDeHanoi(n - 1, origen, destino, auxiliar);
+
+    // Mover el anillo mas grande que quedaba en el origen al destino
+    cout << "Mover anillo " << n << " desde " << origen << " hacia " << destino << endl;
+
+    // Mover los n-1 anillos desde el auxiliar al destino
+    torreDeHanoi(n - 1, auxiliar, origen, destino);
 }
 
-int validar(string mensaje, string mensajeError) {
 
-    int majinbuu;
-    bool casimiroFortnite = true;
+int verificar(string mensaje, string mensajeerror) {
 
-    while (casimiroFortnite) {
+    int dato;
+    bool lebron = true;
 
-        cout << mensaje;  // Mostramos mensaje de entrada
-        cin >> majinbuu;      // Leemos dato
+    while (lebron) {
+        cout << mensaje;
+        cin >> dato;
 
-        // Si hubo error de entrada o caracteres no válidos
+        // Si la entrada falla o si hay caracteres extra
         if (cin.fail() || cin.peek() != '\n') {
-            cout << mensajeError << endl << endl;
-            cin.clear();            // Limpiar estado de error
-            cin.ignore(100, '\n');  // Ignorar lo que sobra en el buffer
-            casimiroFortnite = true;          // Repetimos
+            cout << mensajeerror << endl;
+            cin.clear();
+            cin.ignore(1000, '\n');
+            lebron = true;
+        }
+        else {
+            lebron = false;
+            return dato;
+        }
+    }
+    return 0;
+}
+
+int main() {
+
+    bool broly = true;
+
+    while (broly) {
+        system("cls");
+        cout << "===== TORRE DE HANOI =====" << endl;
+        cout << "1. Jugar" << endl;
+        cout << "2. Salir" << endl;
+
+        int opcion = verificar("\nSelecciona una opcion: ", "\nEse dato no es valido. Intentalo de nuevo...");
+
+        switch (opcion) {
+        case 1:
+        {
+            system("cls");
+            cout << ":::::::TORRE DE HANOI:::::::\n";
+            int numeroDeAnillos = verificar("\nIngresa el numero de anillos: ", "\nEse dato no es valido...");
+
+            if (numeroDeAnillos < 1) {
+                cout << "\nEl numero de anillos no puede ser menor que 1." << endl;
+            }
+            else {
+                cout << "\nIniciando simulacion...\n" << endl;
+                torreDeHanoi(numeroDeAnillos, 'A', 'B', 'C');
+                cout << "\nSimulacion completada con exito!! " << "\nLo completo en " << movimientos << " moviemientos\n" << endl;
+                movimientos = 0;
+            }
+        }
+        break;
+
+        case 2:
+            cout << "\nSaliendo del programa..." << endl;
+            broly = false;
+            break;
+
+        default:
+            cout << "\nEsa opcion no esta disponible..." << endl;
+            break;
         }
 
-        else {
-
-            casimiroFortnite = false; // Entrada válida
-            return majinbuu;
+        // Si el usuario no elige salir, el programa pausa
+        if (broly) {
+            cout << "\nPresione Enter para continuar...";
+            cin.ignore(1000, '\n');
+            cin.get();
         }
     }
 
     return 0;
-}
-
-int main()
-{
-    int dato, opcion;
-
-    bool lebron = true;
-
-    while (lebron)
-    {
-        cout << "\n:::: LAS TORRES DE HANOI::::\n";
-        cout << "1. Insertar un nuevo nodo\n";     
-        cout << "2. Salir\n";
-       
-        opcion = validar("Seleccione una opcion: ", "Ingrese una dato valido \n");
-
-
-        switch (opcion)
-        {
-     
-        case 1:
-            dato = validar("Digite el numero de discos que va a tener la torre: ", "Ingrese dato valido\n");
-            if (dato < 3)
-            {
-                cout << "Ingrese un dato valido\n";
-                system("pause");
-                break;
-            }
-            hanoi(dato, 'X', 'Y', 'Z');
-            
-            system("pause");
-            break;
-        
-        case 2:
-            cout << "Gracias por utilizar el programa." << endl;
-            lebron = false;
-            system("pause");
-            break;
-
-        default:
-            cout << "Elija una opcion valida \n";
-            system("pause");
-            break;
-        }
-        system("cls");
-    }
 }
