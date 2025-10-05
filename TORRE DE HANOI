@@ -100,11 +100,12 @@ int main() {
             cout << ":::::::TORRE DE HANOI:::::::\n";
             int numeroDeAnillos = verificar("\nIngresa el numero de anillos: ", "\nEse dato no es valido...");
 
-            if (numeroDeAnillos < 1) {
-                cout << "\nEl numero de anillos no puede ser menor que 1." << endl;
+            if (numeroDeAnillos < 3) {
+                cout << "\nEl numero de anillos no puede ser menor que 2." << endl;
+                break;
             }
             else {
-                cout << "\nIniciando simulacion...\n" << endl;
+                cout << "\n JUEGO\n" << endl;
                 torreDeHanoi(numeroDeAnillos, 'A', 'B', 'C');
                 cout << "\nSimulacion completada con exito!! " << "\nLo completo en " << movimientos << " moviemientos\n" << endl;
                 movimientos = 0;
