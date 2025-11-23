@@ -1,0 +1,73 @@
+#include <iostream>
+using namespace std;
+
+void dibujarMatriz(int* tablero)
+{
+	cout << "\n";
+	cout << "     |     |     \n";
+	cout << "  " << tablero[0] << "  |  " << tablero[1] << "  |  " << tablero[2] << "   \n";
+	cout << "||_\n";
+	cout << "     |     |     \n";
+	cout << "  " << tablero[3] << "  |  " << tablero[4] << "  |  " << tablero[5] << "   \n";
+	cout << "||_\n";
+	cout << "     |     |     \n";
+	cout << "  " << tablero[6] << "  |  " << tablero[7] << "  |  " << tablero[8] << "   \n";
+	cout << "     |     |     \n\n";
+}
+
+bool verificarSiNumExiste(int tablero[9], int n)
+{
+	for (size_t i = 0; i < 9; i++)
+	{
+		if (tablero[i] == n)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+void buscarSolucion(int tablero[9], int pos)
+{
+	if (pos == 9)
+	{
+		if (
+			tablero[0] + tablero[1] + tablero[2] == 15 &&
+			tablero[3] + tablero[4] + tablero[5] == 15 &&
+			tablero[6] + tablero[7] + tablero[8] == 15 &&
+			tablero[0] + tablero[3] + tablero[6] == 15 &&
+			tablero[1] + tablero[4] + tablero[7] == 15 &&
+			tablero[2] + tablero[5] + tablero[8] == 15 &&
+			tablero[2] + tablero[4] + tablero[6] == 15 &&
+			tablero[0] + tablero[4] + tablero[8] == 15
+			)
+		{
+			dibujarMatriz(tablero);
+		}
+
+		return;
+
+	}
+	
+	for (int num = 1; num <= 9; num++)
+	{
+		if (verificarSiNumExiste(tablero, num))
+		{
+			tablero[pos] = num;
+			buscarSolucion(tablero, pos + 1);
+			tablero[pos] = 0;
+		}
+		
+	}
+
+}
+
+int main()
+{
+	int tablero[9] = { 0 };
+	
+		buscarSolucion(tablero, 0);
+		
+	return 0;
+}
