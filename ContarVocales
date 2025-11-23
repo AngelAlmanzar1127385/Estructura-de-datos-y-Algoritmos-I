@@ -1,0 +1,57 @@
+#include <iostream>
+using namespace std;
+
+void casimiroFortnite(string lol)
+{
+
+	int x = lol.size();
+	int contador1=0, contadorA=0, contadorE=0, contadorI=0, contadorO=0, contadorU = 0;
+
+	for (int i = 0; i < x; i++)
+	{
+		if (lol[i] == 'a' || lol[i] == 'e' || lol[i] == 'i' || lol[i] == 'o' || lol[i] == 'u' || lol[i] == 'U' || 
+			lol[i] == 'O' || lol[i] == 'I' || lol[i] == 'E' || lol[i] == 'A')
+		{
+			contador1++;
+			if (lol[i] == 'a' || lol[i] == 'A')
+			{
+				contadorA++;
+			}
+			if (lol[i] == 'e' || lol[i] == 'E')
+			{
+				contadorE++;
+			}
+			if (lol[i] == 'i' || lol[i] == 'I')
+			{
+				contadorI++;
+			}
+			if (lol[i] == 'o' || lol[i] == 'O')
+			{
+				contadorO++;
+			}
+			if (lol[i] == 'u' || lol[i] == 'U')
+			{
+				contadorU++;
+			}
+
+
+		}
+		
+	}
+
+	cout << "Hay " << contador1 << " vocales.\n";
+	cout << "Hay " << contadorA << "  A.\n";
+	cout << "Hay " << contadorE << "  E.\n";
+	cout << "Hay " << contadorI << "  I.\n";
+	cout << "Hay " << contadorO << "  O.\n";
+	cout << "Hay " << contadorU << "  U.\n";
+}
+int main()
+{
+	string palabra;
+	cout << "Ingrese una palabra: ";
+	cin >> palabra;
+	casimiroFortnite(palabra);
+
+
+}
