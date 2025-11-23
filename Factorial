@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+
+long long factorialRecursividad(int x)
+{
+
+	if (x == 1)
+	{
+		return 1;
+	}
+
+
+	return  x * factorialRecursividad(x - 1);
+
+	
+}
+
+long long factorialNormal(int x)
+{
+	if (x < 0)
+	{
+		return 0;
+	}
+
+	long long resultado = 1;
+
+	for (int i = 2; i <= x; i++)
+	{
+		resultado = resultado * i;
+	}
+
+	return resultado;
+
+	
+
+}
+
+int main()
+{
+	long long x,opcion;
+	bool casimiro = true;
+
+	cout << "1.lol\n";
+	cout << "2. salir\n";
+	cout << "Selecciona una opcion: ";
+	cin >> opcion;
+	while (casimiro)
+
+		if (opcion == 1)
+		{
+			cout << "Ingrese un numero: ";
+			cin >> x;
+
+			cout << "Resultado Factorial Iterativo:\n";
+			cout<<factorialNormal(x)<<endl;
+			
+			cout << "Resultado Factorial Recursivo: \n";
+			cout<<factorialRecursividad(x);
+			break;
+
+		}
+
+		if (opcion == 2)
+		{
+			casimiro = false;
+		}
+	}
+	
+
