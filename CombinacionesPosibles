@@ -1,0 +1,74 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+// ESTA ES LA FUNCION NUEVA
+// Revisa si el caracter a[curr] ya existe en el rango [start, curr-1]
+// Si ya existe, significa que ya generamos combinaciones con esa letra en esta posición
+bool deberiaIntercambiar(string a, int start, int curr) {
+    for (int i = start; i < curr; i++) {
+        if (a[i] == a[curr]) {
+            return false; // Ya se usó esta letra, no intercambiar
+        }
+    }
+    return true; // Es nueva en este turno, adelante
+}
+
+void funcionCambiar(string a, int x, int y) {
+    if (x >= y) { // Pequeño ajuste: >= es más seguro que ==
+        cout << a << endl;
+    }
+    else {
+        for (int i = x; i <= y; i++) {
+
+            // AQUI ESTA EL FILTRO
+            // Antes de hacer swap, preguntamos si vale la pena
+            bool check = deberiaIntercambiar(a, x, i);
+
+            if (check == true) {
+                swap(a[x], a[i]);
+                funcionCambiar(a, x + 1, y);
+                swap(a[x], a[i]); // Backtracking
+            }
+        }
+    }
+}
+
+int main() {
+    bool casimiro = true;
+    int opcion; // CORRECCION 1: Cambiado de bool a int
+
+    string strin;
+
+    while (casimiro)
+    {
+        cout << "\n1. Usar el programa \n";
+        cout << "2. Salir \n";
+        cout << "Seleccione una opcion: ";
+        cin >> opcion;
+
+        switch (opcion)
+        {
+        case 1:
+        {   // CORRECCION 2: Llaves agregadas para permitir declarar variables aquí
+            cout << "Ingrese una palabra: ";
+            cin >> strin;
+            int n = strin.length();
+            funcionCambiar(strin, 0, n - 1);
+            break;
+        } // Cierre de llaves del case 1
+
+        case 2:
+            casimiro = false;
+            break; // Buena práctica agregar break aquí también
+
+        default:
+            cout << "Opcion no valida." << endl;
+            break;
+        }
+    }
+
+    return 0;
+} 
+}
