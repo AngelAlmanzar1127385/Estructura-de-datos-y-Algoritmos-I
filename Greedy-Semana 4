@@ -1,0 +1,96 @@
+
+#include <iostream>
+
+using namespace std;
+
+struct Paquete {
+    int id;
+    double peso;
+    double beneficio;
+    double ratio; // Valor por Kilo
+};
+
+int main() {
+    // DATOS DEL PROBLEMA
+    double capacidadMochila = 100.0;
+    const int N = 5; // Número total de paquetes
+
+    // 1. Usamos un Array
+    Paquete paquetes[N] = {
+        {1, 10, 20, 0},
+        {2, 20, 30, 0},
+        {3, 30, 65, 0},
+        {4, 40, 40, 0},
+        {5, 50, 60, 0}
+    };
+
+    // 2. Calcular el Ratio (Beneficio / Peso)
+    for(int i = 0; i < N; i++) {
+        paquetes[i].ratio = paquetes[i].beneficio / paquetes[i].peso;
+    }
+
+    // 3. Ordenamiento Manual
+    // Queremos ordenar de MAYOR ratio a MENOR ratio.
+    // Este algoritmo compara parejas y las intercambia si están en el orden incorrecto.
+    for(int i = 0; i < N - 1; i++) {
+        for(int j = 0; j < N - i - 1; j++) {
+            // Si el paquete actual tiene MENOS ratio que el siguiente, los cambiamos
+            if(paquetes[j].ratio < paquetes[j+1].ratio) {
+                // Intercambio manual
+                Paquete auxiliar = paquetes[j];
+                paquetes[j] = paquetes[j+1];
+                paquetes[j+1] = auxiliar;
+            }
+        }
+    }
+
+    // Variables para acumular resultados
+    double beneficioTotal = 0.0;
+    double pesoActual = 0.0;
+
+    cout << "--- REPORTE DE LLENADO ---" << endl;
+
+    // 4. Llenar la mochila
+    // Recorremos el arreglo que ya está ordenado
+    for(int i = 0; i < N; i++) {
+        // Si la mochila ya está llena, paramos
+        if(pesoActual >= capacidadMochila) {
+            break;
+        }
+
+        double espacioLibre = capacidadMochila - pesoActual;
+
+        // Verificamos si cabe completo o si hay que fraccionar
+        if(paquetes[i].peso <= espacioLibre) {
+            // CABE COMPLETO
+            pesoActual = pesoActual + paquetes[i].peso;
+            beneficioTotal = beneficioTotal + paquetes[i].beneficio;
+            
+            cout << "Paquete " << paquetes[i].id << " (Completo): " 
+                 << "Peso: " << paquetes[i].peso 
+                 << " | Ganancia: " << paquetes[i].beneficio << endl;
+        } else {
+            // NO CABE COMPLETO -> FRACCIONAR
+            double fraccionPeso = espacioLibre; // Tomamos solo lo que entra
+            double fraccionBeneficio = paquetes[i].ratio * fraccionPeso;
+
+            pesoActual = pesoActual + fraccionPeso;
+            beneficioTotal = beneficioTotal + fraccionBeneficio;
+
+            cout << "Paquete " << paquetes[i].id << " (Fraccionado): " 
+                 << "Peso tomado: " << fraccionPeso 
+                 << " | Ganancia calc: " << fraccionBeneficio << endl;
+            
+            // La mochila se llenó con esta fracción
+            break;
+        }
+    }
+
+    cout << "--------------------------" << endl;
+    cout << "Capacidad Maxima: " << capacidadMochila << endl;
+    cout << "Peso Final Usado: " << pesoActual << endl;
+    cout << "Beneficio Maximo: " << beneficioTotal << endl;
+
+    return 0;
+}
+
