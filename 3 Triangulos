@@ -1,0 +1,81 @@
+#include <iostream>
+#include <windows.h>
+using namespace std;
+
+int main()
+{
+    int altura;
+
+    cout << "Ingrese la cantidad de niveles"<<endl;
+    cin >> altura;
+
+
+    //Triangulo isosceles
+
+    // Bucle para cada fila de la pirámide
+    for (int i = 1; i <= altura; ++i) {
+        // Bucle para imprimir los espacios iniciales
+        for (int j = 1; j <= altura - i; ++j) {
+            cout << " ";
+        }
+
+        // Bucle para imprimir los asteriscos
+        for (int k = 1; k <= ((2 * i) - 1); ++k) {
+            cout << "*";
+            
+        }
+
+        // Salto de línea para pasar a la siguiente fila
+        cout << endl;
+    }
+
+    cout << "\n";
+
+    //Triangulo rectangulo
+    
+    // Bucle para cada fila de la pirámide
+    for (int i = 1; i <= altura; ++i) {
+        // Bucle para imprimir los espacios iniciales
+        for (int j = 1; j <= altura - i; ++j) {
+            cout << " ";
+        }
+
+        // Bucle para imprimir los asteriscos
+        for (int k = 1; k <= i; ++k) {
+            cout << "*";
+
+        }
+
+        // Salto de línea para pasar a la siguiente fila
+        cout << endl;
+    }
+
+
+    //Triangulo isosceles alrevez
+    
+    cout << "\n";
+
+    for (int i = 1; i <= altura; ++i) {
+        // Bucle para imprimir los espacios iniciales
+        for (int j = altura; j > altura - i; --j) {
+            cout << " ";
+        }
+
+        // Bucle para imprimir los asteriscos
+       /* for (int k = altura; k >= altura -i; --k) {
+            cout << "*";
+
+        }*/
+
+        for (int k = i; k <= (2*altura) - i; ++k) {
+            cout << "*";
+
+        }
+
+        // Salto de línea para pasar a la siguiente fila
+        cout << endl;
+    }
+   
+
+    return 0;
+}
