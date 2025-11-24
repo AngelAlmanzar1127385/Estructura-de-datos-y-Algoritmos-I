@@ -1,81 +1,82 @@
 #include <iostream>
-#include <windows.h>
 using namespace std;
 
-int main()
-{
-    int altura;
+void trianguloRectanguloDerecha(int fila, int alturaTotal) {
+   
+    if (fila > alturaTotal) {
+        return;
+    }
 
-    cout << "Ingrese la cantidad de niveles"<<endl;
+    for (int i = 0; i < alturaTotal - fila; i++) {
+        cout << " ";
+    }
+
+    for (int i = 0; i < fila; i++) {
+        cout << "*";
+    }
+
+    cout << endl;
+
+    trianguloRectanguloDerecha(fila + 1, alturaTotal);
+}
+
+void trianguloIsosceles(int fila, int alturaTotal) {
+   
+    if (fila > alturaTotal) {
+        return;
+    }
+
+    for (int i = 0; i < alturaTotal - fila; i++) {
+        cout << " ";
+    }
+
+    for (int i = 0; i < (2 * fila) - 1; i++) {
+        cout << "*";
+    }
+
+    cout << endl;
+
+    trianguloIsosceles(fila + 1, alturaTotal);
+}
+
+void trianguloIsoscelesInvertido(int fila, int alturaTotal) {
+    
+    if (fila < 1) {
+        return;
+    }
+
+    for (int i = 0; i < alturaTotal - fila; i++) {
+        cout << " ";
+    }
+
+    for (int i = 0; i < (2 * fila) - 1; i++) {
+        cout << "*";
+    }
+
+    cout << endl;
+
+    trianguloIsoscelesInvertido(fila - 1, alturaTotal);
+}
+
+int main() {
+
+    int altura;
+    cout << "Introduce la altura: ";
     cin >> altura;
 
+    if (altura <= 0) return 1;
 
-    //Triangulo isosceles
-
-    // Bucle para cada fila de la pirámide
-    for (int i = 1; i <= altura; ++i) {
-        // Bucle para imprimir los espacios iniciales
-        for (int j = 1; j <= altura - i; ++j) {
-            cout << " ";
-        }
-
-        // Bucle para imprimir los asteriscos
-        for (int k = 1; k <= ((2 * i) - 1); ++k) {
-            cout << "*";
-            
-        }
-
-        // Salto de línea para pasar a la siguiente fila
-        cout << endl;
-    }
-
-    cout << "\n";
-
-    //Triangulo rectangulo
+    cout << "Rectangulo\n";
     
-    // Bucle para cada fila de la pirámide
-    for (int i = 1; i <= altura; ++i) {
-        // Bucle para imprimir los espacios iniciales
-        for (int j = 1; j <= altura - i; ++j) {
-            cout << " ";
-        }
+    trianguloRectanguloDerecha(1, altura);
 
-        // Bucle para imprimir los asteriscos
-        for (int k = 1; k <= i; ++k) {
-            cout << "*";
-
-        }
-
-        // Salto de línea para pasar a la siguiente fila
-        cout << endl;
-    }
-
-
-    //Triangulo isosceles alrevez
+    cout << "\nIsosceles\n";
     
-    cout << "\n";
+    trianguloIsosceles(1, altura);
 
-    for (int i = 1; i <= altura; ++i) {
-        // Bucle para imprimir los espacios iniciales
-        for (int j = altura; j > altura - i; --j) {
-            cout << " ";
-        }
-
-        // Bucle para imprimir los asteriscos
-       /* for (int k = altura; k >= altura -i; --k) {
-            cout << "*";
-
-        }*/
-
-        for (int k = i; k <= (2*altura) - i; ++k) {
-            cout << "*";
-
-        }
-
-        // Salto de línea para pasar a la siguiente fila
-        cout << endl;
-    }
-   
+    cout << "\nIsosceles Invertido\n";
+    
+    trianguloIsoscelesInvertido(altura, altura);
 
     return 0;
 }
